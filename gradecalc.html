@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        label {
+            flex: 1;
+            text-align: left;
+            font-weight: bold;
+        }
+        input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: right;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+    <script>
+        function calculateGrade() {
+            let exam1 = parseFloat(document.getElementById('exam1').value) || 0;
+            let exam2 = parseFloat(document.getElementById('exam2').value) || 0;
+            let exam3 = parseFloat(document.getElementById('exam3').value) || 0;
+            let exam4 = parseFloat(document.getElementById('exam4').value) || 0;
+            let finalExam = parseFloat(document.getElementById('finalExam').value) || 0;
+            let homework = parseFloat(document.getElementById('homework').value) || 0;
+            let attendance = parseFloat(document.getElementById('attendance').value) || 0;
+            let skillsAss = parseFloat(document.getElementById('skillsAss').value) || 100;
+            
+            let exams = [exam1, exam2, exam3, exam4];
+            let bestExam = Math.max(...exams);
+            let otherExams = exams.filter(score => score !== bestExam);
+            
+            while (otherExams.length < 3) {
+                otherExams.push(bestExam);
+            }
+            
+            let examTotal = bestExam * 0.15 + otherExams[0] * 0.10 + otherExams[1] * 0.10 + otherExams[2] * 0.10;
+            let finalGrade = examTotal + (finalExam * 0.25) + (homework * 0.20) + (attendance * 0.075) + (skillsAss * 0.025);
+            
+            let letterGrade = "F";
+            if (finalGrade > 92) letterGrade = "A";
+            else if (finalGrade > 88) letterGrade = "A-";
+            else if (finalGrade > 84) letterGrade = "B+";
+            else if (finalGrade > 80) letterGrade = "B";
+            else if (finalGrade > 76) letterGrade = "B-";
+            else if (finalGrade > 72) letterGrade = "C+";
+            else if (finalGrade > 68) letterGrade = "C";
+            else if (finalGrade > 64) letterGrade = "C-";
+            else if (finalGrade > 60) letterGrade = "D";
+            
+            document.getElementById('result').innerText = "Predicted Grade: " + finalGrade.toFixed(2) + "% (" + letterGrade + ")";
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Grade Calculator</h2>
+        <p style="text-align: center;">Enter all grades as percentages.</p>
+        <div class="input-group"><label>Exam 1:</label><input type="number" id="exam1" min="0" max="100" value="75"></div>
+        <div class="input-group"><label>Exam 2:</label><input type="number" id="exam2" min="0" max="100" value="50"></div>
+        <div class="input-group"><label>Exam 3:</label><input type="number" id="exam3" min="0" max="100" value="85"></div>
+        <div class="input-group"><label>Exam 4:</label><input type="number" id="exam4" min="0" max="100" value="90"></div>
+        <div class="input-group"><label>Final Exam:</label><input type="number" id="finalExam" min="0" max="100" value="88"></div>
+        <div class="input-group"><label>Homework:</label><input type="number" id="homework" min="0" max="100" value="100"></div>
+        <div class="input-group"><label>Attendance:</label><input type="number" id="attendance" min="0" max="100" value="100"></div>
+        <div class="input-group"><label>Skills Assessment:</label><input type="number" id="skillsAss" min="0" max="100" value="100"></div>
+        <button onclick="calculateGrade()">Calculate Grade</button>
+        <h3 id="result">Predicted Grade: </h3>
+    </div>
+</body>
+</html>
