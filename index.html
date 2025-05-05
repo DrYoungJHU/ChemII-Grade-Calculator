@@ -26,7 +26,7 @@
             text-align: center;
             margin-bottom: 10px;
         }
-        .input-group {
+        .input-group, .input-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -38,11 +38,15 @@
             font-weight: bold;
         }
         input {
-            flex: 1;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
             text-align: right;
+        }
+        .double-input {
+            display: flex;
+            gap: 10px;
+            flex: 2;
         }
         button {
             background: #007bff;
@@ -64,9 +68,29 @@
             font-weight: bold;
             text-align: center;
         }
+        .headers-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin: 10px 0;
+            padding-left: 100px;
+            padding-right: 10px;
+        }
+        .headers-row div {
+            width: 50%;
+            text-align: right;
+        }
     </style>
-    <script>
+     <script>
+        function updatePercent(idRaw, idPercent) {
+            const raw = parseFloat(document.getElementById(idRaw).value);
+            const percent = raw ? Math.min(raw * 2, 102).toFixed(1) : '';
+            document.getElementById(idPercent).value = percent;
+        }
+
         function calculateGrade() {
+            ['1', '2', '3', '4'].forEach(i => updatePercent(`exam${i}Raw`, `exam${i}`));
+
             let exam1 = parseFloat(document.getElementById('exam1').value) || 0;
             let exam2 = parseFloat(document.getElementById('exam2').value) || 0;
             let exam3 = parseFloat(document.getElementById('exam3').value) || 0;
@@ -75,18 +99,16 @@
             let homework = parseFloat(document.getElementById('homework').value) || 0;
             let attendance = parseFloat(document.getElementById('attendance').value) || 0;
             let skillsAss = parseFloat(document.getElementById('skillsAss').value) || 100;
-            
+            let extraCredit = parseFloat(document.getElementById('extraCredit').value) || 0;
+
             let exams = [exam1, exam2, exam3, exam4];
-            let bestExam = Math.max(...exams);
-            let otherExams = exams.filter(score => score !== bestExam);
-            
-            while (otherExams.length < 3) {
-                otherExams.push(bestExam);
-            }
-            
-            let examTotal = bestExam * 0.15 + otherExams[0] * 0.10 + otherExams[1] * 0.10 + otherExams[2] * 0.10;
-            let finalGrade = examTotal + (finalExam * 0.25) + (homework * 0.20) + (attendance * 0.075) + (skillsAss * 0.025);
-            
+            let minIndex = exams.indexOf(Math.min(...exams));
+            exams[minIndex] = Math.min(exams[minIndex] + 6, 100);
+
+            let sortedExams = [...exams].sort((a, b) => b - a);
+            let examTotal = sortedExams[0] * 0.15 + sortedExams[1] * 0.10 + sortedExams[2] * 0.10 + sortedExams[3] * 0.10;
+            let finalGrade = examTotal + (finalExam * 0.25) + (homework * 0.20) + (attendance * 0.075) + (skillsAss * 0.025) + extraCredit;
+
             let letterGrade = "F";
             if (finalGrade > 92) letterGrade = "A";
             else if (finalGrade > 88) letterGrade = "A-";
@@ -97,27 +119,65 @@
             else if (finalGrade > 68) letterGrade = "C";
             else if (finalGrade > 64) letterGrade = "C-";
             else if (finalGrade > 60) letterGrade = "D";
-            
+
             document.getElementById('result').innerText = "Predicted Grade: " + finalGrade.toFixed(2) + "% (" + letterGrade + ")";
         }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', calculateGrade);
+            });
+            calculateGrade();
+        });
     </script>
 </head>
 <body>
     <div class="container">
         <h2>Grade Calculator</h2>
         <p style="text-align: center;">This is an approximate grade calculator for Intro Chem II. Note that this is a simple calculator that uses the default assignment weightings shown on Canvas.</p>
-        <p style="text-align: center;"><strong>You must enter all grades as percentages, not the raw score.</strong></p>
-        <div class="input-group"><label>Exam 1:</label><input type="number" id="exam1" min="0" max="100" value="">%</div>
-        <div class="input-group"><label>Exam 2:</label><input type="number" id="exam2" min="0" max="100" value=""> %</div>
-        <div class="input-group"><label>Exam 3:</label><input type="number" id="exam3" min="0" max="100" value=""> %</div>
-        <div class="input-group"><label>Exam 4:</label><input type="number" id="exam4" min="0" max="100" value=""> %</div>
-          <p>Total weighting for exams is 45%. The highest exam grade is automatically scaled to be worth 15%.</p>
+        <p style="text-align: center;"><strong>You must enter all grades as raw scores for exams, and percentages for other components.</strong></p>
+
+        <div class="headers-row">
+            <div>Raw Score</div>
+            <div>Percentage</div>
+        </div>
+
+        <div class="input-row">
+            <label>Exam 1:</label>
+            <div class="double-input">
+                <input type="number" id="exam1Raw" placeholder="Raw Score">
+                <input type="number" id="exam1" placeholder="%" readonly>
+            </div>
+        </div>
+        <div class="input-row">
+            <label>Exam 2:</label>
+            <div class="double-input">
+                <input type="number" id="exam2Raw" placeholder="Raw Score">
+                <input type="number" id="exam2" placeholder="%" readonly>
+            </div>
+        </div>
+        <div class="input-row">
+            <label>Exam 3:</label>
+            <div class="double-input">
+                <input type="number" id="exam3Raw" placeholder="Raw Score">
+                <input type="number" id="exam3" placeholder="%" readonly>
+            </div>
+        </div>
+        <div class="input-row">
+            <label>Exam 4:</label>
+            <div class="double-input">
+                <input type="number" id="exam4Raw" placeholder="Raw Score">
+                <input type="number" id="exam4" placeholder="%" readonly>
+            </div>
+        </div>
+        <p>Total weighting for exams is 45%. The highest exam grade is automatically scaled to be worth 15%.</p>
         <div class="input-group"><label>Final Exam (25%):</label><input type="number" id="finalExam" min="0" max="100" value=""> %</div>
         <div class="input-group"><label>Homework (20%):</label><input type="number" id="homework" min="0" max="100" value="100"> %</div>
         <div class="input-group"><label>Attendance (7.5%):</label><input type="number" id="attendance" min="0" max="100" value="100"> %</div>
         <div class="input-group"><label>Skills Assessment (2.5%):</label><input type="number" id="skillsAss" min="0" max="100" value="100"> %</div>
+        <div class="input-group"><label>Skills Assessment 2 (+1% EC):</label><input type="number" id="extraCredit" min="0" max="1" value="1"> %</div>
         <br>
-        <button onclick="calculateGrade()">Calculate Grade</button>
+
         <h3 id="result">Predicted Grade: </h3>
     </div>
 </body>
