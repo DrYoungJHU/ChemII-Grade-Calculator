@@ -31,36 +31,26 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
+
         }
         label {
             flex: 1;
             text-align: left;
             font-weight: bold;
+          
         }
         input {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
             text-align: right;
+
         }
         .double-input {
             display: flex;
             gap: 10px;
             flex: 2;
-        }
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        button:hover {
-            background: #0056b3;
+          
         }
         #result {
             margin-top: 15px;
@@ -75,10 +65,12 @@
             margin: 10px 0;
             padding-left: 100px;
             padding-right: 10px;
+          
         }
         .headers-row div {
             width: 50%;
             text-align: right;
+          
         }
     </style>
      <script>
@@ -135,47 +127,47 @@
     <div class="container">
         <h2>Grade Calculator</h2>
         <p style="text-align: center;">This is an approximate grade calculator for Intro Chem II. Note that this is a simple calculator that uses the default assignment weightings shown on Canvas.</p>
-        <p style="text-align: center;"><strong>You must enter all grades as raw scores for exams, and percentages for other components.</strong></p>
+        <p style="text-align: justify; background: #9dc2e5; padding: 10px; border: 1px solid black; border-radius: 5px">You can change the values for the boxes in green. You must enter all grades as raw scores for exams, and percentages for other components. The 3 points of extra credit are automatically added to your lowest exam score before the final calculation is performed.</p>
 
         <div class="headers-row">
-            <div>Raw Score</div>
-            <div>Percentage</div>
+            <div>Raw Score (x/50)</div>
+            <div>Percent (max = 102%)</div>
         </div>
 
         <div class="input-row">
             <label>Exam 1:</label>
             <div class="double-input">
-                <input type="number" id="exam1Raw" placeholder="Raw Score">
+                <input style="background: #9de5a9;" type="number" id="exam1Raw" placeholder="Raw Score">
                 <input type="number" id="exam1" placeholder="%" readonly>
             </div>
         </div>
         <div class="input-row">
             <label>Exam 2:</label>
             <div class="double-input">
-                <input type="number" id="exam2Raw" placeholder="Raw Score">
+                <input style="background: #9de5a9;" type="number" id="exam2Raw" placeholder="Raw Score">
                 <input type="number" id="exam2" placeholder="%" readonly>
             </div>
         </div>
         <div class="input-row">
             <label>Exam 3:</label>
             <div class="double-input">
-                <input type="number" id="exam3Raw" placeholder="Raw Score">
+                <input style="background: #9de5a9;" type="number" id="exam3Raw" placeholder="Raw Score">
                 <input type="number" id="exam3" placeholder="%" readonly>
             </div>
         </div>
         <div class="input-row">
             <label>Exam 4:</label>
             <div class="double-input">
-                <input type="number" id="exam4Raw" placeholder="Raw Score">
+                <input style="background: #9de5a9;" type="number" id="exam4Raw" placeholder="Raw Score">
                 <input type="number" id="exam4" placeholder="%" readonly>
             </div>
         </div>
-        <p>Total weighting for exams is 45%. The highest exam grade is automatically scaled to be worth 15%.</p>
-        <div class="input-group"><label>Final Exam (25%):</label><input type="number" id="finalExam" min="0" max="100" value=""> %</div>
-        <div class="input-group"><label>Homework (20%):</label><input type="number" id="homework" min="0" max="100" value="100"> %</div>
-        <div class="input-group"><label>Attendance (7.5%):</label><input type="number" id="attendance" min="0" max="100" value="100"> %</div>
-        <div class="input-group"><label>Skills Assessment (2.5%):</label><input type="number" id="skillsAss" min="0" max="100" value="100"> %</div>
-        <div class="input-group"><label>Skills Assessment 2 (+1% EC):</label><input type="number" id="extraCredit" min="0" max="1" value="1"> %</div>
+        <p style="text-align: center; background: #ccc; padding: 5px; border-radius: 5px">Total weighting for exams is 45%.</p>
+        <div class="input-group"><label>Final Exam (25%):</label><input style="background: #9de5a9;" type="number" id="finalExam" min="0" max="100" value=""> %</div>
+        <div class="input-group"><label>Homework (20%):</label><input style="background: #9de5a9;" type="number" id="homework" min="0" max="100" value="100"> %</div>
+        <div class="input-group"><label>Attendance (7.5%):</label><input style="background: #9de5a9;" type="number" id="attendance" min="0" max="100" value="100"> %</div>
+        <div class="input-group"><label>Skills Assessment (2.5%):</label><input style="background: #9de5a9;" type="number" id="skillsAss" min="0" max="100" value="100"> %</div>
+        <div class="input-group"><label>Skills Assessment 2 (+1% EC):</label><input style="background: #9de5a9;" type="number" id="extraCredit" min="0" max="1" value="1"> %</div>
         <br>
 
         <h3 id="result">Predicted Grade: </h3>
