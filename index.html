@@ -95,7 +95,6 @@
 
             let exams = [exam1, exam2, exam3, exam4];
             let minIndex = exams.indexOf(Math.min(...exams));
-            exams[minIndex] = Math.min(exams[minIndex] + 6, 100);
 
             let sortedExams = [...exams].sort((a, b) => b - a);
             let examTotal = sortedExams[0] * 0.15 + sortedExams[1] * 0.10 + sortedExams[2] * 0.10 + sortedExams[3] * 0.10;
